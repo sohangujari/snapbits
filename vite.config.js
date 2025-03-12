@@ -10,5 +10,9 @@ export default defineConfig({
         format: 'es'
       }
     }
+  },
+  base: '/',
+  server: {
+    port: 3000
   }
 })
