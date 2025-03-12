@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -59,4 +61,8 @@ body {
 
 .animate-bounce {
   animation: bounce 2s infinite;
+}
+
+.text-logo {
+  font-family: 'Space Grotesk', sans-serif;
 }
