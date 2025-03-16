@@ -4,7 +4,6 @@ import { Virtual, Mousewheel } from 'swiper/modules';
 import NewsCard from './NewsCard';
 import { getTopNews } from '../services/newsApi';
 import 'swiper/css';
-import AdComponent from './AdComponent';
 
 export default function NewsReel() {
   const [articles, setArticles] = useState([]);
@@ -27,11 +26,6 @@ export default function NewsReel() {
     const moreArticles = await getTopNews(nextPage);
     setArticles(prev => [...prev, ...moreArticles]);
     setPage(nextPage);
-  };
-
-  // Function to determine if we should show an ad
-  const shouldShowAd = (index) => {
-    return (index + 1) % 10 === 0 && Math.floor(index / 10) < 3;
   };
 
   if (loading) {
@@ -58,18 +52,10 @@ export default function NewsReel() {
       watchSlidesProgress
       onReachEnd={loadMoreNews}
     >
-      {articles.map((article, index) => (
-        <div key={`news-container-${index}`}>
-          <SwiperSlide key={`news-${index}`}>
-            <NewsCard article={article} />
-          </SwiperSlide>
-          
-          {shouldShowAd(index) && (
-            <SwiperSlide key={`ad-wrapper-${index}`}>
-              <AdComponent />
-            </SwiperSlide>
-          )}
-        </div>
+      {articles.map((article) => (
+        <SwiperSlide key={article.id}>
+          <NewsCard article={article} />
+        </SwiperSlide>
       ))}
     </Swiper>
   );
