@@ -31,8 +31,7 @@ export default function NewsReel() {
 
   // Function to determine if we should show an ad
   const shouldShowAd = (index) => {
-    // Show ad with 10% probability (1:10 ratio)
-    return (index + 1) % 10 === 0;
+    return (index + 1) % 10 === 0 && Math.floor(index / 10) < 3;
   };
 
   if (loading) {
@@ -60,18 +59,17 @@ export default function NewsReel() {
       onReachEnd={loadMoreNews}
     >
       {articles.map((article, index) => (
-        <>
+        <div key={`news-container-${index}`}>
           <SwiperSlide key={`news-${index}`}>
             <NewsCard article={article} />
           </SwiperSlide>
           
-          {/* Ad after every 10th item */}
           {shouldShowAd(index) && (
-            <SwiperSlide key={`ad-${index}`}>
+            <SwiperSlide key={`ad-wrapper-${index}`}>
               <AdComponent />
             </SwiperSlide>
           )}
-        </>
+        </div>
       ))}
     </Swiper>
   );
