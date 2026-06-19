@@ -2,7 +2,7 @@
 
 Snapbits is a modern, premium news-reading application inspired by the addictive, vertical-swiping interface of TikTok. Swipe up to read the latest global news headlines with lightning-fast performance, beautiful typography, and a sleek glassmorphic design.
 
-![Snapbits Preview](https://via.placeholder.com/800x400?text=Snapbits+-+Vertical+News+Reel)
+![Snapbits Preview](https://snapbits.netlify.app/snapbits-preview.png)
 
 ## 🌟 Features
 
@@ -25,12 +25,14 @@ Snapbits is a modern, premium news-reading application inspired by the addictive
 ## 🛠️ Local Development
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/yourusername/snapbits.git
    cd snapbits
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
@@ -52,6 +54,7 @@ Vercel is the easiest way to deploy this app. The `vercel.json` file in the root
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsohangujari%2Fsnapbits)
 
 **Manual Vercel Deployment:**
+
 1. Push your code to a GitHub repository.
 2. Go to [Vercel](https://vercel.com) and click **Add New Project**.
 3. Import your GitHub repository.
@@ -65,16 +68,18 @@ Netlify deployment is fully supported. We use a `public/_redirects` file to hand
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sohangujari/snapbits)
 
 **Manual Netlify Deployment:**
+
 1. Push your code to a GitHub repository.
 2. Go to [Netlify](https://app.netlify.com) and click **Add new site** > **Import an existing project**.
 3. Connect to GitHub and select your repository.
 4. Set the Build Command to `npm run build` and the Publish Directory to `dist`.
 5. Click **Deploy Site**.
-*(Note: If you see a "Legacy Prerendering" warning in your Netlify dashboard, you can safely disable Prerendering in Site Settings > Build & deploy > Prerendering).*
+   _(Note: If you see a "Legacy Prerendering" warning in your Netlify dashboard, you can safely disable Prerendering in Site Settings > Build & deploy > Prerendering)._
 
 ## 🔒 Security
 
 This application uses a public, keyless news API proxy, meaning there are **no secrets, API keys, or `.env` files** required to run it. It is 100% safe to fork and make public. All dependencies are actively audited.
 
 ---
-*Built with ❤️ for speed reading the news.*
+
+_Built with ❤️ for speed reading the news._
