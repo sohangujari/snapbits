@@ -2,9 +2,12 @@ import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { useBookmarks } from '../hooks/useBookmarks';
+import { Bookmark, Share2, ChevronUp } from 'lucide-react';
 
 export default function NewsCard({ article }) {
   const {
+    id,
     title,
     summary,
     imageUrl,
@@ -14,7 +17,11 @@ export default function NewsCard({ article }) {
     url
   } = article;
 
-  const handleShare = async () => {
+  const { isBookmarked, addBookmark, removeBookmark } = useBookmarks();
+  const bookmarked = isBookmarked(id);
+
+  const handleShare = async (e) => {
+    e.stopPropagation();
     if (navigator.share) {
       try {
         await navigator.share({
@@ -28,20 +35,24 @@ export default function NewsCard({ article }) {
     }
   };
 
-  const handleClick = () => {
-    window.open(url, '_blank');
+  const toggleBookmark = (e) => {
+    e.stopPropagation();
+    if (bookmarked) {
+      removeBookmark(id);
+    } else {
+      addBookmark(article);
+    }
   };
 
   return (
     <motion.div 
-      className="w-full h-full bg-black flex flex-col relative cursor-pointer"
+      className="w-full h-full bg-black flex flex-col relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       layout
-      onClick={handleClick}
     >
-      {/* Full-height image with overlay */}
+      {/* Full-height image with improved overlay */}
       <div className="absolute inset-0 z-0">
         <LazyLoadImage
           src={imageUrl}
@@ -53,55 +64,67 @@ export default function NewsCard({ article }) {
             <div className="w-full h-full bg-gray-900 animate-pulse" />
           }
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent" />
       </div>
 
       {/* Content overlay */}
-      <div className="relative z-10 flex flex-col h-full justify-end p-6 text-white">
+      <div className="relative z-10 flex flex-col h-full justify-end p-6 text-white pb-24">
+        
         {/* Category badge */}
         <div className="mb-4">
-          <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+          <span className="bg-white/20 backdrop-blur-md border border-white/10 text-white px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-lg inline-block">
             {category}
           </span>
         </div>
 
         {/* Title and summary */}
-        <h2 className="text-2xl font-bold mb-3 leading-tight text-white">
+        <h2 className="text-3xl font-bold mb-3 leading-tight text-white drop-shadow-md">
           {title}
         </h2>
-        <p className="text-white/90 mb-6 line-clamp-3 text-base leading-relaxed">
+        <p className="text-white/80 mb-6 line-clamp-3 text-base leading-relaxed font-light drop-shadow-sm">
           {summary}
         </p>
 
-        {/* Source and time */}
-        <div className="flex items-center justify-between text-sm text-white/70">
+        {/* Source, time, and actions */}
+        <div className="flex items-center justify-between text-sm text-white/70 mb-4">
           <div className="flex items-center gap-2">
-            <span className="font-medium">{source}</span>
+            <span className="font-semibold text-white/90">{source}</span>
             <span>•</span>
             <span>{formatDistanceToNow(new Date(publishedAt))} ago</span>
           </div>
           
           {/* Action buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button 
-              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              className="w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md transition-colors"
+              onClick={toggleBookmark}
               aria-label="Save for later"
             >
-              <span className="material-icons text-white">bookmark_border</span>
+              <Bookmark size={20} className="text-white drop-shadow-md" fill={bookmarked ? 'currentColor' : 'none'} />
             </button>
             <button 
-              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              className="w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md transition-colors"
               onClick={handleShare}
               aria-label="Share article"
             >
-              <span className="material-icons text-white">share</span>
+              <Share2 size={20} className="text-white drop-shadow-md" />
             </button>
           </div>
         </div>
 
+        {/* Read Full Story Button */}
+        <a 
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-full block text-center py-3.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl font-semibold text-white border border-white/10 shadow-lg transition-all"
+        >
+          Read Full Story
+        </a>
+
         {/* Swipe indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
-          <span className="material-icons text-white">keyboard_arrow_up</span>
+        <div className="absolute bottom-[80px] left-1/2 -translate-x-1/2 animate-bounce opacity-40 pointer-events-none hidden md:block">
+          <ChevronUp size={28} className="text-white" />
         </div>
       </div>
     </motion.div>

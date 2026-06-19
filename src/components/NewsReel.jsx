@@ -1,9 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Virtual, Mousewheel } from 'swiper/modules';
+import { SearchX } from 'lucide-react';
 import NewsCard from './NewsCard';
 import { fetchNews } from '../services/newsApi';
 import 'swiper/css';
+
+const SkeletonCard = () => (
+  <div className="w-full h-screen-safe bg-black flex flex-col relative animate-pulse">
+    <div className="absolute inset-0 bg-[#0a0a0a]" />
+    <div className="relative z-10 flex flex-col h-full justify-end p-6 pb-24">
+      <div className="w-24 h-6 bg-white/5 rounded-full mb-4" />
+      <div className="w-full h-8 bg-white/5 rounded-lg mb-3" />
+      <div className="w-3/4 h-8 bg-white/5 rounded-lg mb-3" />
+      <div className="w-full h-4 bg-white/5 rounded mb-2" />
+      <div className="w-full h-4 bg-white/5 rounded mb-2" />
+      <div className="w-5/6 h-4 bg-white/5 rounded mb-6" />
+      <div className="flex justify-between items-center mb-4">
+        <div className="w-32 h-4 bg-white/5 rounded" />
+        <div className="flex gap-3">
+          <div className="w-10 h-10 bg-white/5 rounded-full" />
+          <div className="w-10 h-10 bg-white/5 rounded-full" />
+        </div>
+      </div>
+      <div className="w-full h-12 bg-white/5 rounded-xl" />
+    </div>
+  </div>
+);
 
 export default function NewsReel({ category, country, searchQuery }) {
   const [articles, setArticles] = useState([]);
@@ -45,19 +68,17 @@ export default function NewsReel({ category, country, searchQuery }) {
   };
 
   if (loading && articles.length === 0) {
-    return (
-      <div className="h-screen-safe flex items-center justify-center bg-black">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-      </div>
-    );
+    return <SkeletonCard />;
   }
 
   if (!loading && articles.length === 0) {
     return (
-      <div className="h-screen-safe flex flex-col items-center justify-center bg-black text-white p-6 text-center">
-        <span className="material-icons text-5xl text-gray-500 mb-4">search_off</span>
-        <h2 className="text-xl font-bold mb-2">No News Found</h2>
-        <p className="text-gray-400">Try adjusting your filters or search query.</p>
+      <div className="h-screen-safe flex flex-col items-center justify-center bg-[#050505] text-white p-6 text-center pb-24">
+        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
+          <SearchX size={40} className="text-gray-500" />
+        </div>
+        <h2 className="text-2xl font-bold mb-2 tracking-wide">No News Found</h2>
+        <p className="text-gray-400 font-light max-w-xs">Try adjusting your region, category, or search query.</p>
       </div>
     );
   }
@@ -68,7 +89,7 @@ export default function NewsReel({ category, country, searchQuery }) {
       direction="vertical"
       slidesPerView={1}
       className="h-screen-safe"
-      speed={700}
+      speed={500}
       spaceBetween={0}
       virtual
       mousewheel={{
