@@ -19,7 +19,7 @@ export async function fetchNews(params = {}) {
     }
 
     const queryString = queryParams.toString();
-    const url = `${BASE_URL}/news${queryString ? `?${queryString}` : ''}`;
+    const url = `${BASE_URL}/news/latest${queryString ? `?${queryString}` : ''}`;
     
     // Timeout logic
     const fetchPromise = async () => {
