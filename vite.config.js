@@ -13,6 +13,13 @@ export default defineConfig({
   },
   base: '/',
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'https://feedflow-news.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })
